@@ -36,7 +36,7 @@ steps:
         git reset --hard
         git clean -fdx
         refs=$(git config hooks.protected-branch.refs)
-        echo refs
+        echo $(git config hooks.protected-branch.refs)
     volumes:
       - name: 'ssh'
         path: /root/.ssh
