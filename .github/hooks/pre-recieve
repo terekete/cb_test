@@ -1,0 +1,7 @@
+#! /bin/bash
+
+read old_value new_value ref_name
+
+echo old_value
+echo new_value
+echo ref_name
