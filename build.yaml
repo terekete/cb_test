@@ -1,0 +1,59 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'get-key'
+    entrypoint: 'bash'
+    dir: .
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access ${_GITHUB_KEY_VERSION} --secret="rpabot_read_key" --project=${_GITHUB_KEY_PROJECT_ID} > /root/.ssh/id_rsa
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'add-key'
+    entrypoint: 'bash'
+    dir: .
+    args:
+      - '-c'
+      - |
+        chmod 600 /root/.ssh/id_rsa
+        cat <<EOF >/root/.ssh/config
+        Hostname github.com
+        IdentityFile /root/.ssh/id_rsa
+        EOF
+        ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'crlf'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        git config --global core.autocrlf input
+        git reset --hard
+        git clean -fdx
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+
+options:
+  substitution_option: 'ALLOW_LOOSE'
+
+substitutions:
+  _KEY_PROJECT: ${_KEY_PROJECT}
+  _KEY_VERSION: "latest"
+  _GITHUB_KEY_PROJECT_ID: ${_GITHUB_KEY_PROJECT_ID}
+  _GITHUB_KEY_VERSION: ${_GITHUB_KEY_VERSION}
+  _BASE_BRANCH: "main"
+  _TEAM_NAME: ${_TEAM_NAME}
+  _BASE_REPO_URL: ${_BASE_REPO_URI}
+  _STATE_BUCKET: ${_BACKEND_CONFIG_BUCKET}
+  _GCR_PROJECT: ${_GCR_PROJECT}
+  _PROJECT_TYPE: ${_PROJECT_TYPE}
+  _BUILD_SA: "bilayer-sa"
+
+timeout: 600s
