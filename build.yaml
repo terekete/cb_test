@@ -37,6 +37,7 @@ steps:
         git clean -fdx
         refs=$(git config hooks.protected-branch.refs)
         echo $(git rev-parse --abbrev-ref HEAD)
+        ls -la
         echo "Pull Request: #${_PR_NUMBER}"
         git config user.email "<>"
         git config user.name "git"
