@@ -44,6 +44,13 @@ steps:
         git remote | xargs -n1 git remote remove
         git remote add origin main
         git remote -vv
+        git fetch origin "pull/${_PR_NUMBER}/head":feature
+        git fetch --unshallow
+        git fetch origin main:base-branch
+        git checkout base-branch
+        echo "Potential Conflicts: $(git diff --name-only feature...base-branch)"
+        git merge --no-ff feature
+        git status
     volumes:
       - name: 'ssh'
         path: /root/.ssh
