@@ -52,6 +52,7 @@ steps:
         git merge --no-ff feature
         git status
         ls -la
+        echo $(git diff --name-only origin/"${BASE_BRANCH}"...HEAD)
     volumes:
       - name: 'ssh'
         path: /root/.ssh
