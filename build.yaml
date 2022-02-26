@@ -42,7 +42,7 @@ steps:
         git config user.email "<>"
         git config user.name "git"
         git remote | xargs -n1 git remote remove
-        git remote add origin main
+        git remote add origin git@github.com:terekete/cb_test.git
         git remote -vv
         git fetch origin "pull/${_PR_NUMBER}/head":feature
         git fetch --unshallow
