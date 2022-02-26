@@ -39,6 +39,11 @@ steps:
         echo $(git rev-parse --abbrev-ref HEAD)
         ls -la
         echo "Pull Request: #${_PR_NUMBER}"
+        git config user.email "<>"
+        git config user.name "git"
+        git remote | xargs -n1 git remote remove
+        git remote add origin ${BASE_REPO_URL}
+        git remote -vv
     volumes:
       - name: 'ssh'
         path: /root/.ssh
