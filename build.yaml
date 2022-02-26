@@ -51,6 +51,7 @@ steps:
         echo "Potential Conflicts: $(git diff --name-only feature...base-branch)"
         git merge --no-ff feature
         git status
+        ls -la
     volumes:
       - name: 'ssh'
         path: /root/.ssh
