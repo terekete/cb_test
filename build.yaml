@@ -37,6 +37,7 @@ steps:
         git clean -fdx
         refs=$(git config hooks.protected-branch.refs)
         echo $(git rev-parse --abbrev-ref HEAD)
+        ls -la
     volumes:
       - name: 'ssh'
         path: /root/.ssh
