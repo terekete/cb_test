@@ -46,11 +46,6 @@ steps:
         git remote -vv
         git fetch origin "pull/${_PR_NUMBER}/head":feature
         git fetch --unshallow
-        git fetch origin "${_BASE_BRANCH}":base-branch
-        git checkout base-branch
-        git diff --name-only feature...base-branch > POTENTIAL_CONFLICTS.txt
-        git merge --no-ff feature
-        git status
     volumes:
       - name: 'ssh'
         path: /root/.ssh
