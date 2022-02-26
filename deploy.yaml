@@ -49,7 +49,7 @@ steps:
         git checkout base-branch
         echo "Potential Conflicts: $(git diff --name-only feature...base-branch)"
         git merge --no-ff feature
-        git status
+        echo $(git status)
         ls -la
         echo $(git diff --name-only origin/"main"...HEAD)
     volumes:
