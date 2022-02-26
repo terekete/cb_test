@@ -38,6 +38,7 @@ steps:
         refs=$(git config hooks.protected-branch.refs)
         echo $(git rev-parse --abbrev-ref HEAD)
         ls -la
+        echo "Pull Request: #${PR_NUMBER}"
     volumes:
       - name: 'ssh'
         path: /root/.ssh
